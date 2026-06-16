@@ -252,9 +252,108 @@
       text-transform: uppercase;
     }
 
+    /* GALERÍA */
+    .gallery-section {
+      padding: 3rem 1.5rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .gallery-featured {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: #e0ddd8;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+
+    .gallery-featured img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-featured:hover img { transform: scale(1.03); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .gallery-item {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: #e0ddd8;
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover img { transform: scale(1.04); }
+
+    .gallery-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.6));
+      color: #fff;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 1.5rem 0.75rem 0.6rem;
+      font-weight: 400;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.25rem; right: 1.5rem;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.7);
+      font-size: 28px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .lightbox-close:hover { color: #fff; }
+
     @media (max-width: 480px) {
       .logo-letter { font-size: 60px; }
       .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -327,7 +426,58 @@
       <p>También contamos con <strong>productos profesionales para el cabello</strong>, accesorios de bijouterie, bolsos y mucho más — todo en un solo lugar.</p>
     </div>
 
-    <!-- CONTACTO -->
+    <!-- GALERÍA -->
+    <section class="gallery-section">
+      <p class="section-eyebrow">Nuestro trabajo</p>
+      <h2 class="section-title">Galería</h2>
+
+      <!-- Imagen destacada -->
+      <div class="gallery-featured" onclick="openLightbox(this)">
+        <img src="peinado.jpg" alt="Peinado" loading="lazy" />
+        <span class="gallery-label">Peinado</span>
+      </div>
+
+      <!-- Fila 1 -->
+      <div class="gallery-grid" style="margin-bottom: 8px;">
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="color1.webp" alt="Color" loading="lazy" />
+          <span class="gallery-label">Color</span>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="color2.jpg" alt="Color" loading="lazy" />
+          <span class="gallery-label">Color</span>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="reflejos.jpg" alt="Reflejos" loading="lazy" />
+          <span class="gallery-label">Reflejos</span>
+        </div>
+      </div>
+
+      <!-- Fila 2 -->
+      <div class="gallery-grid">
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="make1.jpg" alt="Make up" loading="lazy" />
+          <span class="gallery-label">Make up</span>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="make2.jpg" alt="Make up" loading="lazy" />
+          <span class="gallery-label">Make up</span>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="corte.jpg" alt="Corte" loading="lazy" />
+          <span class="gallery-label">Corte</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+      <button class="lightbox-close" onclick="closeLightbox()" aria-label="Cerrar">✕</button>
+      <img id="lightbox-img" src="" alt="" />
+    </div>
+
+
     <section class="contact-section">
       <p class="section-eyebrow">Vení a vernos</p>
       <h2 class="section-title">Encontranos</h2>
@@ -360,5 +510,19 @@
     AG Peluquería &nbsp;·&nbsp; Liniers 568 &nbsp;·&nbsp; 3564 58-0164
   </footer>
 
+  <script>
+    function openLightbox(el) {
+      var img = el.querySelector('img');
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox-img').alt = img.alt;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 </body>
 </html>
